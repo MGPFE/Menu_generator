@@ -54,7 +54,7 @@ class Menu_generator:
 
     @staticmethod
     def check_os():
-        if platform == "linux" or platform == "darwin":
+        if platform in ["linux", "darwin"]:
             return "clear"
         elif platform == "win32":
             return "cls"
@@ -98,12 +98,12 @@ class Menu_generator:
     main_menu METHOD
     """
     def validate_data(self, dct):
-        if dct:
-            for k, v in dct.items():
-                if not isinstance(v, list):
-                    raise Exception(f"Value from key {k} is not a list!")
-        else:
+        if not dct:
             raise Exception("You didn't pass anything to the function!")
+
+        for k, v in dct.items():
+            if not isinstance(v, list):
+                raise Exception(f"Value from key {k} is not a list!")
 
     @logger
     def main_menu(self, **kwargs) -> int:
@@ -177,8 +177,6 @@ class Menu_generator:
                             sd.append(sliced_side[i][index - 1])
                         except IndexError:
                             i += 1
-                            pass
-
                     side_str = str()
                     for string in sd:
                         side_str += f"{string:<{self.side_spacing}}"
